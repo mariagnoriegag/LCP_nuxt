@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 module.exports = {
   /*
   ** Headers of the page
@@ -14,9 +15,7 @@ module.exports = {
       { rel: 'stylesheet', href:'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
       { rel: 'stylesheet', href:'https://unpkg.com/vuetify/dist/vuetify.min.css' }
     ],
-    script: [
-      {src: 'https://code.jquery.com/jquery-3.2.1.min.js'}
-    ],
+    
   },
   /*
   ** Customize the progress bar color
@@ -27,6 +26,11 @@ module.exports = {
   */
   plugins: ['~/plugins/vuetify.js'],
   build: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        '$': 'jquery'
+      })
+    ],
     /*
     ** Run ESLint on save
     */

@@ -59,13 +59,94 @@
 </template>
 
 <script>
-$('#mylogo').hide();
+import $ from 'jquery'
+
 export default {
   data () {
     return {}
+  },
+  beforeMount: () => {
+    $('#mylogo').hide()
+  },
+  mounted: () => {
+    var imageHeight = parseInt($('#logoimg').css('height'))
+    var stopHeight = 62.84
+    $(window).scroll(function () {
+      var windowScroll = $(window).scrollTop()
+      var newHeight = imageHeight - 0.9 * windowScroll
+      var windowWidth = $(window).width()
+      var windowHeight = $(window).height()
+      var toplogo = $('#logoimg').offset().top
+      toplogo = toplogo - 1
+      console.log(stopHeight)
+      console.log(windowScroll)
+      console.log(newHeight)
+      console.log(windowWidth)
+      console.log(windowHeight)
+      console.log(toplogo)
+      if (windowScroll > windowHeight - 50 && windowScroll < (2 * windowHeight) - 50) {
+        $('#mylogo').show()
+        $('#toolbar1').removeClass('transparent')
+        $('#toolbar1').css('background-color', '#00CBDB')
+        $('#seemore').fadeOut()
+      } else if (newHeight >= stopHeight) {
+        if (windowScroll >= 10) {
+          $('#seemore').fadeOut()
+          $('#logoimg').show()
+          $('#logoimg').css('height', newHeight)
+          $('#toolbar1').css('background-color', 'transparent')
+          $('#mylogo').hide(40)
+        } else {
+          $('#seemore').fadeIn()
+          $('#logoimg').show()
+          $('#logoimg').css('height', newHeight)
+          $('#toolbar1').css('background-color', 'transparent')
+          $('#mylogo').hide()
+        }
+      } else if (windowScroll >= toplogo - 5) {
+        $('#mylogo').show()
+        $('#logoimg').hide()
+        $('#seemore').fadeOut()
+      } else {
+        $('#logoimg').show()
+        $('#logoimg').css('height', stopHeight)
+        $('#toolbar1').addClass('transparent')
+        $('#toolbar1').css('background-color', 'transparent')
+        $('#bb').addClass('orange')
+        $('#bb').addClass('white--text')
+        $('#mylogo').hide()
+      }
+    })
   }
 }
 </script>
 
 <style>
+
+#seemore {
+  -webkit-animation: zoom 1s ease-in-out infinite alternate;
+  animation: zoom 1s ease-in-out infinite alternate;
+  height: 95px;
+}
+
+@-webkit-keyframes zoom {
+  from {
+    -webkit-transform: scale(1, 1);
+  }
+  50% {
+    -webkit-transform: scale(1.2, 1.2);
+  }
+  to {
+    -webkit-transform: scale(1, 1);
+  }
+}
+
+@keyframes zoom {
+ from {
+  transform: scale(1, 1);
+}
+to {
+ transform: scale(1.2, 1.2);
+}
+}
 </style>
